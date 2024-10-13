@@ -6,6 +6,7 @@ import ScrollFood from "@/components/scrollFood";
 import Image from "next/image";
 import React from "react";
 import { useEffect, useState } from "react";
+import Link from 'next/link';
 
 interface Category {
     id: number;
@@ -153,7 +154,13 @@ export default function Home() {
                 </div>
                 <div className="col-span-9 w-full  pt-3 pr-8 gap-3 flex flex-col">
                     <ScrollBar items={banneritems} />
-                    <ScrollFood items={restaurants} title="Nhà hàng ngẫu nhiên" />
+                    <ScrollFood 
+                        items={restaurants.map(restaurant => ({
+                            ...restaurant,
+                            href: `/detailfood/${restaurant.id}`
+                        }))} 
+                        title="Nhà hàng ngẫu nhiên" 
+                    />
                 </div>
             </div>
         </>

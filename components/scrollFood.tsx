@@ -15,6 +15,7 @@ interface Restaurant {
     image_url: string | null;
     rating: number | null;
     is_partner: boolean | null;
+    href: string;
   }
   
   interface ScrollFoodProps {
@@ -57,39 +58,40 @@ export default function ScrollBar({ items, title }: ScrollFoodProps) {
                 </button>
               )}
               <div ref={containerRef} className="scroll-container flex overflow-x-auto scrollbar-hide px-4 pb-6" style={{ scrollSnapType: 'x mandatory' }}>
-                {items.map((restaurant) => (
-                  <div 
-                    key={restaurant.id} 
-                    className="flex-shrink-0 w-72 mr-6 bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg cursor-pointer" 
-                    style={{ scrollSnapAlign: 'start' }}
-                    onClick={() => handleItemClick(restaurant.id)}
-                  >
-                    {restaurant.image_url && (
-                      <div className="relative h-48 w-full">
-                        <Image
-                          src={restaurant.image_url}
-                          alt={restaurant.name}
-                          layout="fill"
-                          objectFit="cover"
-                        />
-                      </div>
-                    )}
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2 truncate">{restaurant.name}</h3>
-                      <p className="text-gray-600 mb-2 text-sm truncate">{restaurant.address}</p>
-                      <div className="flex items-center justify-between">
-                        {restaurant.rating && (
-                          <p className="text-yellow-500 font-medium">
-                            <span className="text-lg">{Number(restaurant.rating).toFixed(1)}</span>
-                            <span className="text-sm ml-1">★</span>
-                          </p>
-                        )}
-                        {restaurant.is_partner && (
-                          <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">Đối tác</span>
-                        )}
+                {items.map((item) => (
+                  <Link href={item.href} key={item.id}>
+                    <div 
+                      className="flex-shrink-0 w-72 mr-6 bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg cursor-pointer" 
+                      style={{ scrollSnapAlign: 'start' }}
+                      onClick={() => handleItemClick(item.id)}
+                    >
+                      {item.image_url && (
+                        <div className="relative h-48 w-full">
+                          <Image
+                            src={item.image_url}
+                            alt={item.name}
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                        </div>
+                      )}
+                      <div className="p-4">
+                        <h3 className="text-xl font-semibold mb-2 truncate">{item.name}</h3>
+                        <p className="text-gray-600 mb-2 text-sm truncate">{item.address}</p>
+                        <div className="flex items-center justify-between">
+                          {item.rating && (
+                            <p className="text-yellow-500 font-medium">
+                              <span className="text-lg">{Number(item.rating).toFixed(1)}</span>
+                              <span className="text-sm ml-1">★</span>
+                            </p>
+                          )}
+                          {item.is_partner && (
+                            <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">Đối tác</span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
               {currentIndex < items.length - 1 && (
